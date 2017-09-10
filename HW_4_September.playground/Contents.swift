@@ -8,9 +8,9 @@ func trim (line: String, with: String) -> String {
     
     var newLine = line
     
-    while (newLine.contains(with)) {
+    while let range = newLine.range(of: with) {
         var charactersArray = Array(newLine.characters)
-        let index = newLine.distance(from: newLine.startIndex, to: newLine.range(of: with)!.lowerBound) //  range(of : )!.lowerBound - находит индекс первого элемент совпадения with в newLine
+        let index = newLine.distance(from: newLine.startIndex, to: range.lowerBound)
         for _ in 0 ..< with.characters.count {
             charactersArray.remove(at: index)
         }
@@ -26,16 +26,16 @@ print (test)
 // GAME OF THROES
 
 // CLASS UNIT
-class Unit : CustomStringConvertible {
-    public var nickname : String
-    public var health : Double
-    public var damage : Double
-    public var armor : Double
-    public var dexterity : Double
-    public var numbersOfWins : Int = 0
-    public var numbersOfDefeats : Int = 0
+class Unit: CustomStringConvertible {
+    public var nickname: String
+    public var health: Double
+    public var damage: Double
+    public var armor: Double
+    public var dexterity: Double
+    public var numbersOfWins: Int = 0
+    public var numbersOfDefeats: Int = 0
     
-    init(nickname : String, health : Double, damage : Double, armor : Double, dexterity : Double) {
+    init(nickname: String, health: Double, damage: Double, armor: Double, dexterity: Double) {
         self.nickname = nickname
         self.health = health
         self.damage = damage
@@ -66,16 +66,16 @@ class Unit : CustomStringConvertible {
 }
 
 // CLASS LANNISTER
-class Lannister : Unit {
+class Lannister: Unit {
 
-    override init(nickname : String, health : Double, damage : Double, armor : Double, dexterity : Double){
-        super.init(nickname : nickname, health : health, damage : damage, armor : armor, dexterity : dexterity)
+    override init(nickname: String, health: Double, damage: Double, armor: Double, dexterity: Double){
+        super.init(nickname: nickname, health: health, damage: damage, armor: armor, dexterity: dexterity)
     }
     
 }
 
 // CLASS STARK
-class Stark : Unit {
+class Stark: Unit {
     
     override init(nickname: String, health: Double, damage: Double, armor: Double, dexterity: Double) {
         super.init(nickname: nickname, health: health, damage: damage, armor: armor, dexterity: dexterity)
@@ -84,7 +84,7 @@ class Stark : Unit {
 }
 
 // CLASS MORMONT
-class Mormont : Unit {
+class Mormont: Unit {
     
     override init(nickname: String, health: Double, damage: Double, armor: Double, dexterity: Double) {
         super.init(nickname: nickname, health: health, damage: damage, armor: armor, dexterity: dexterity)
@@ -96,9 +96,9 @@ class Mormont : Unit {
 // CLASS BATTLEGROUND
 class Battleground {
     
-    public var players : [Unit] = []
+    public var players: [Unit] = []
     
-    public func beginBattle(members : Unit ...) {
+    public func beginBattle(members: Unit ...) {
         print("--------------BEGIN BATTLE------------")
         self.players = members
         
@@ -140,7 +140,7 @@ class Battleground {
         }
         print("\n /////-----THE END----/////")
         print("All members : " )
-        for number in 0...members.count - 1 {
+        for number in 0 ..< members.count {
             print(members[number].nickname)
         }
         print("\n Winner is " + players[0].nickname)
@@ -148,7 +148,7 @@ class Battleground {
         players[0].setWon()
     }
     
-    public func fight(attacer : Unit, enemy : Unit) {
+    public func fight(attacer: Unit, enemy: Unit) {
         print("\n /////BEFORE FIGHT/////")
         print(attacer.description)
         print(enemy.description)
@@ -172,14 +172,14 @@ class Battleground {
 // TABLE OF TOTALS
 class TableOfTotals {
     
-    func createTable(members : Unit ...) {
+    func createTable(members: Unit ...) {
         print("\n ---------TABLE OF TOTALS---------")
-        var tempArray : [Unit] = members
+        var tempArray: [Unit] = members
         tempArray.sort { $0.numbersOfWins > $1.numbersOfWins}
-        printTable(array : tempArray)
+        printTable(array: tempArray)
     }
     
-    func printTable(array : [Unit]) {
+    func printTable(array: [Unit]) {
         print("№...Nickname...W...L")
         for number in 0...array.count - 1 {
             print("\(number+1). " + array[number].nickname + "....\(array[number].numbersOfWins)" + "....\(array[number].numbersOfDefeats)")
@@ -189,14 +189,14 @@ class TableOfTotals {
 
 // CLASS TEST
 
-var lannisterJaime : Unit = Lannister(nickname: "Jaime", health: 100, damage: 50, armor: 100, dexterity: 1)
-var starkNed : Unit = Stark(nickname: "Ned", health: 100, damage: 50, armor: 100, dexterity: 1)
-var mormontJorah : Unit = Mormont(nickname: "Jorah", health: 100, damage: 50, armor: 100, dexterity: 1)
-var lannisterTywin : Unit = Lannister(nickname: "Tywin", health: 100, damage: 50, armor: 100, dexterity: 1)
-var starkRob : Unit = Stark(nickname: "Rob", health: 100, damage: 50, armor: 100, dexterity: 1)
-var mormontLyanna : Unit = Mormont(nickname: "Lyanna", health: 100, damage: 50, armor: 100, dexterity: 1)
+var lannisterJaime: Unit = Lannister(nickname: "Jaime", health: 100, damage: 50, armor: 100, dexterity: 1)
+var starkNed: Unit = Stark(nickname: "Ned", health: 100, damage: 50, armor: 100, dexterity: 1)
+var mormontJorah: Unit = Mormont(nickname: "Jorah", health: 100, damage: 50, armor: 100, dexterity: 1)
+var lannisterTywin: Unit = Lannister(nickname: "Tywin", health: 100, damage: 50, armor: 100, dexterity: 1)
+var starkRob: Unit = Stark(nickname: "Rob", health: 100, damage: 50, armor: 100, dexterity: 1)
+var mormontLyanna: Unit = Mormont(nickname: "Lyanna", health: 100, damage: 50, armor: 100, dexterity: 1)
 
-func preporationBeforeBattle (members : Unit ...) {
+func preporationBeforeBattle (members: Unit ...) {
     for member in members {
         member.health = 100
         member.damage = Double(arc4random_uniform(100))
@@ -205,8 +205,8 @@ func preporationBeforeBattle (members : Unit ...) {
     }
 }
 
-let battleGround : Battleground = Battleground()
-let tableOfTotals : TableOfTotals = TableOfTotals()
+let battleGround: Battleground = Battleground()
+let tableOfTotals: TableOfTotals = TableOfTotals()
 for _ in 0...5 {
     preporationBeforeBattle(members: lannisterJaime, starkNed, mormontJorah, lannisterTywin, starkRob, mormontLyanna)
     battleGround.beginBattle(members: lannisterJaime, starkNed, mormontJorah, lannisterTywin, starkRob, mormontLyanna)
